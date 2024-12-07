@@ -4,15 +4,14 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Camera _camera;
 
     private WeaponManager _weaponManager;
 
     private void Awake()
     {
-        _weaponManager = GetComponent<WeaponManager>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        _weaponManager = GetComponent<WeaponManager>();
     }
 
     private void Update()
@@ -22,24 +21,27 @@ public class WeaponController : MonoBehaviour
 
     private void HandleShooting()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetButton("Fire1"))
         {
             Weapon currentWeapon = _weaponManager.CurrentWeapon;
             if (currentWeapon != null)
             {
                 Vector3 cameraPoint = new Vector3(Screen.width / 2, Screen.height / 2);
-                Ray ray = _camera.ScreenPointToRay(cameraPoint);
-                if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+                Ray ray = Camera.main.ScreenPointToRay(cameraPoint);
+                if (Physics.Raycast(ray, out RaycastHit hit, currentWeapon.Range))
                 {
-                    Vector3 direction = (hit.point - currentWeapon.FirePoint.position).normalized;
-                    currentWeapon.Shoot(_camera.ScreenToWorldPoint(cameraPoint), direction);
+                    Vector3 direction = (hit.point - ray.origin).normalized;
+                    currentWeapon.Shoot(Camera.main.ScreenToWorldPoint(cameraPoint), direction);
                 }
                 else
                 {
-                    Vector3 direction = _camera.transform.forward;
-                    currentWeapon.Shoot(_camera.ScreenToWorldPoint(cameraPoint), direction);
+                    currentWeapon.Shoot(Camera.main.ScreenToWorldPoint(cameraPoint), ray.direction);
                 }
             }
+        }
+        if (Input.GetButton("Reload"))
+        {
+            StartCoroutine(_weaponManager.CurrentWeapon.Reload());
         }
     }
 }

@@ -8,7 +8,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private KeyCode _pickupKey = KeyCode.E;
 
     [Header("Settings")]
-    [SerializeField] private List<Weapon> _weapons;   
+    [SerializeField] private List<Weapon> _weapons;
     public Weapon CurrentWeapon;
     private int _currentWeaponIndex = -1;
 
@@ -39,8 +39,9 @@ public class WeaponManager : MonoBehaviour
     {
         if (Input.GetKeyDown(_pickupKey))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+            Vector3 cameraPoint = new Vector3(Screen.width / 2, Screen.height / 2);
+            Ray ray = Camera.main.ScreenPointToRay(cameraPoint);
+            if (Physics.Raycast(ray, out RaycastHit hit, 5f))
             {
                 Weapon weapon = hit.collider.GetComponent<Weapon>();
                 if (weapon != null)
@@ -73,6 +74,7 @@ public class WeaponManager : MonoBehaviour
         }
 
         CurrentWeapon = weapon;
+        _weapons.Add(weapon);
         CurrentWeapon.transform.SetParent(_weaponHolder);
         CurrentWeapon.transform.localPosition = Vector3.zero;
         CurrentWeapon.transform.localRotation = Quaternion.identity;
