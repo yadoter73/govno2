@@ -77,8 +77,10 @@ public class Weapon : MonoBehaviour
             }
 
             GameObject decal = _hitDecalPool.GetObject();
-            decal.GetComponent<HitsDecal>()?.Initialize(hit.point, hit.normal, _hitDecalPool, hit.transform);
-
+            if (hit.collider.tag != "Player" && hit.collider.tag != "Enemy" && hit.collider.tag != "Weapon")
+            {
+                decal.GetComponent<HitsDecal>()?.Initialize(hit.point, hit.normal, _hitDecalPool, hit.transform);
+            }
             endPoint = hit.point;
         }
 
