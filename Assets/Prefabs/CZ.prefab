@@ -1004,7 +1004,7 @@ MonoBehaviour:
   _damage: 20
   _reloadTime: 1.5
   FireRate: 0.2
-  FirePoint: {fileID: 0}
+  FirePoint: {fileID: 5722844708690209142}
   _range: 50
   _bulletTrailPool: {fileID: 1420311546780630733}
   _hitDecalPool: {fileID: 6014006383710591253}

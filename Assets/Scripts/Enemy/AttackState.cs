@@ -13,10 +13,9 @@ public class AttackState : EnemyState
         }
 
         _enemy.RotateTowardsPlayer();
+        _enemy.MoveTo(_enemy.transform.position);
+        _enemy.ShootAtPlayer();
 
-        if (_enemy.IsFacingPlayer())
-        {
-            _enemy.ShootAtPlayer();
-        }
+
     }
 }

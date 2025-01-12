@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -8,6 +9,7 @@ public class Health : MonoBehaviour
     public float CurrentHealth => _currentHealth;
     public bool IsAlive => _currentHealth > 0;
 
+    public event Action OnHit;
     private void Awake()
     {
         _currentHealth = _maxHealth;
@@ -17,6 +19,7 @@ public class Health : MonoBehaviour
     {
         if (!IsAlive) return;
 
+        OnHit?.Invoke();
         _currentHealth -= amount;
         if (_currentHealth <= 0)
         {
