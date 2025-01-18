@@ -77,10 +77,10 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, _range))
         {
-            Health targetHealth = hit.collider.GetComponent<Health>();
-            if (targetHealth != null)
+            HitBox targetHitBox = hit.collider.GetComponent<HitBox>();
+            if (targetHitBox != null)
             {
-                targetHealth.TakeDamage(_damage);
+                targetHitBox.OnRaycastHit(_damage);
             }
 
             GameObject decal = _hitDecalPool.GetObject();

@@ -1,4 +1,5 @@
-using UnityEngine;
+  using UnityEngine;
+
 
 public class AttackState : EnemyState
 {
@@ -6,7 +7,7 @@ public class AttackState : EnemyState
 
     public override void UpdateState()
     {
-        if (!_enemy.IsPlayerInAttackRange() || !_enemy.IsPlayerInFieldOfView())
+        if (!_enemy.IsPlayerInAttackRange() && !_enemy.IsPlayerInFieldOfView())
         {
             _enemy.SwitchState(new ChaseState(_enemy));
             return;

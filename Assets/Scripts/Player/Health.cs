@@ -1,18 +1,31 @@
 using System;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxHealth = 100f;
     [SerializeField] private float _currentHealth;
 
+    [SerializeField] private Ragdoll _ragdoll;
+
     public float CurrentHealth => _currentHealth;
     public bool IsAlive => _currentHealth > 0;
 
     public event Action OnHit;
-    private void Awake()
+    private void Start()
     {
         _currentHealth = _maxHealth;
+        _ragdoll.DisableRagdoll();
+
+        foreach (var rb in _ragdoll.rbs)
+        {
+            if (rb.gameObject.layer != 3)
+            {
+                HitBox hb = rb.gameObject.AddComponent<HitBox>();
+                hb.Health = this;
+            }
+        }
     }
 
     public void TakeDamage(float amount)
@@ -36,7 +49,6 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log($"{gameObject.name} has died!");
-        gameObject.SetActive(false);
+        _ragdoll.EnableRagdoll();
     }
 }
