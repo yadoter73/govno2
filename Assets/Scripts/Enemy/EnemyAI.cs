@@ -38,12 +38,14 @@ public class EnemyAI : MonoBehaviour
     public event Action OnShoot;
     public event Action OnReload;
     public event Action OnReloadEnd;
+    private Health _health;
 
     private void Start()
     {
         IsPlayerInFieldOfView();
         _currentState = new PatrolState(this);
-
+        _health = GetComponent<Health>();
+        _health.OnDie += DieEnemy;
     }
 
     private void Update()
@@ -125,5 +127,11 @@ public class EnemyAI : MonoBehaviour
     public void UpdateLastKnownPosition(Vector3 position)
     {
         _lastKnownPosition = position;
+    }
+    private void DieEnemy()
+    {
+        this.enabled = false;
+        _weapon.transform.parent = null;
+        _weapon.IsntTaken();
     }
 }

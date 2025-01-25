@@ -21,11 +21,13 @@ public class Weapon : MonoBehaviour
 
     private int _currentAmmo;
     [SerializeField] private bool _canShoot = true;
+    private Rigidbody _rb;
     private bool _isReloading = false;
 
     private void Awake()
     {
         _currentAmmo = _maxAmmo;
+        _rb = GetComponent<Rigidbody>();
     }
 
     public string WeaponName => _weaponName;
@@ -108,4 +110,16 @@ public class Weapon : MonoBehaviour
         yield return new WaitForSeconds(FireRate);
         _muzzleFlash.StopFlash();
     }
+    public void IsTaken()
+    {
+        _rb.gameObject.layer = 3;
+        _rb.isKinematic = true;
+        _rb.gameObject.layer = 0;
+    }
+    public void IsntTaken()
+    {
+        _rb.isKinematic = false;
+        _rb.gameObject.layer = 3;
+    }
+
 }

@@ -46,6 +46,7 @@ public class WeaponManager : MonoBehaviour
                 Weapon weapon = hit.collider.GetComponent<Weapon>();
                 if (weapon != null)
                 {
+                    CurrentWeapon.IsTaken();
                     EquipWeapon(weapon);
                 }
             }
